@@ -25,3 +25,24 @@ def test_divide_by_zero():
     with pytest.raises(ValueError) as exc_info:
         calculator.divide(10, 0)
     assert str(exc_info.value) == "Cannot divide by zero"
+
+@pytest.mark.parametrize(
+    "base, exponent, expected",
+    [
+        (2, 3, 8),
+        (1, 5, 1),
+        (0, 5, 0),
+        (5, 0, 1),
+        (-2, 3, -8),
+        (2, -2, 0.25),
+    ]
+)
+def test_power(calc, base, exponent, expected):
+    assert calc.power(base, exponent) == expected
+
+
+@pytest.mark.slow
+def test_heavy_computation(calc):
+    import time
+    time.sleep(5)  # Симуляция долгой операции
+    assert calc.multiply(1000, 1000) == 1000000
