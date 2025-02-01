@@ -1,4 +1,5 @@
 import pytest
+import sys
 import calculator
 
 def test_add():
@@ -46,3 +47,15 @@ def test_heavy_computation(calc):
     import time
     time.sleep(5)  # Симуляция долгой операции
     assert calc.multiply(1000, 1000) == 1000000
+
+
+@pytest.mark.skipif(sys.platform == "win32", reason="Does not run on Windows")
+def test_specific_platform(calc):
+    # Тест, специфичный для Unix-систем
+    assert calc.divide(10, 2) == 5
+
+
+@pytest.mark.xfail(reason="Known bug in version 1.0")
+def test_known_issue(calc):
+    # Нарочно неправильное ожидание
+    assert calc.subtract(10, 5) == 6
